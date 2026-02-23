@@ -11,8 +11,8 @@ declare module "next-auth" {
   }
 }
 
-const nextAuth = NextAuth({
-  adapter: PrismaAdapter(prisma),
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  adapter: PrismaAdapter(prisma) as any,
   providers: [
     GitHub({
       clientId: process.env.GITHUB_CLIENT_ID!,
@@ -20,7 +20,7 @@ const nextAuth = NextAuth({
     }),
   ],
   session: {
-    strategy: "database",
+    strategy: "database" as const,
   },
   callbacks: {
     session({ session, user }) {
@@ -35,5 +35,3 @@ const nextAuth = NextAuth({
     error: "/login",
   },
 });
-
-export const { handlers, auth, signIn, signOut } = nextAuth;
