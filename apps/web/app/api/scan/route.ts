@@ -1,16 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ScanEngine, createFilesFromEntries } from "@api-ciwei/scanner";
 import type { ScanOptions } from "@api-ciwei/scanner";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/db";
 
 const MAX_FILES = 500;
 const MAX_TOTAL_SIZE = 10 * 1024 * 1024; // 10MB
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await auth();
+    
     const body = await req.json();
-    const { files, options } = body as {
+    const { files, options, projectName } = body as {
       files: Array<{ path: string; content: string }>;
       options?: ScanOptions;
+      projectName?: string;
     };
 
     if (!files || !Array.isArray(files)) {
@@ -41,8 +46,30 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const startTime = Date.now();
     const engine = new ScanEngine();
     const result = engine.scanFiles(scanFiles, options);
+    const durationMs = Date.now() - startTime;
+
+    if (session?.user?.id) {
+      const languages = Array.from(new Set(scanFiles.map(f => f.language)));
+      const score = Math.max(0, 100 - Math.floor(result.issues.length * 2));
+      
+      await prisma.scan.create({
+        data: {
+          userId: session.user.id,
+          name: projectName || `Scan ${new Date().toLocaleDateString()}`,
+          status: "COMPLETED",
+          totalFiles: files.length,
+          scannedFiles: scanFiles.length,
+          totalIssues: result.issues.length,
+          score,
+          durationMs,
+          languages: JSON.stringify(languages),
+          statsJson: result as any,
+        },
+      });
+    }
 
     return NextResponse.json(result);
   } catch (error) {

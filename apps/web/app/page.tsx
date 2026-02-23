@@ -90,7 +90,7 @@ export default function HomePage() {
               <span className="font-bold text-lg text-green-400">API-CIWEI</span>
             </div>
           <div className="flex items-center gap-3">
-            <Link href="https://github.com/sheepxux" target="_blank">
+            <Link href="https://github.com/sheepxux/API_CIWEI" target="_blank">
               <Button variant="ghost" size="sm" className="gap-2">
                 <Github className="w-4 h-4" />
                 GitHub
@@ -307,19 +307,19 @@ export default function HomePage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="https://github.com/sheepxux/API-CIWEI" target="_blank" className="text-green-300/70 hover:text-green-400 transition-colors">
+                  <Link href="https://github.com/sheepxux/API_CIWEI/blob/main/README.md" target="_blank" className="text-green-300/70 hover:text-green-400 transition-colors">
                     Documentation
                   </Link>
                 </li>
               </ul>
             </div>
 
-            {/* Community */}
+            {/* Author */}
             <div>
-              <h4 className="font-semibold text-green-400 mb-4 text-sm">Community</h4>
+              <h4 className="font-semibold text-green-400 mb-4 text-sm">Author</h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link href="https://github.com/sheepxux/API-CIWEI" target="_blank" className="text-green-300/70 hover:text-green-400 transition-colors flex items-center gap-2">
+                  <Link href="https://github.com/sheepxux" target="_blank" className="text-green-300/70 hover:text-green-400 transition-colors flex items-center gap-2">
                     <Github className="w-4 h-4" />
                     GitHub
                   </Link>
