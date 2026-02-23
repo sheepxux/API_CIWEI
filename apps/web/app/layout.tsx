@@ -26,6 +26,11 @@ export const metadata: Metadata = {
     description: "Scan your API code for errors, security issues, and best practice violations.",
     type: "website",
   },
+  icons: {
+    icon: "/icons/CIWEI.svg",
+    shortcut: "/icons/CIWEI.svg",
+    apple: "/icons/CIWEI.svg",
+  },
 };
 
 export default function RootLayout({
